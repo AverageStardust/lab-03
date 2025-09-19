@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,31 +32,23 @@ public class EditCityFragment extends DialogFragment {
         }
     }
 
+    @NonNull
     @Override
-    public void on() {
-        super.onStart();
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_edit_city, null);
+    public Dialog onCreateDialog(@Nullable Bundle _) {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_city_details, null);
         EditText editCityName = view.findViewById(R.id.edit_text_city_text);
         EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
 
         City city = (City)getArguments().getSerializable("city");
         editCityName.setText(city.getName());
         editProvinceName.setText(city.getProvince());
-    }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle _) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_edit_city, null);
-        EditText editCityName = view.findViewById(R.id.edit_text_city_text);
-        EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
         return builder
                 .setView(view)
                 .setTitle("Edit a city")
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("Edit", (dialog, which) -> {
+                .setPositiveButton("Update", (dialog, which) -> {
                     String cityName = editCityName.getText().toString();
                     String provinceName = editProvinceName.getText().toString();
 

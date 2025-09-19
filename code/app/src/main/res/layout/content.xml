@@ -8,6 +8,7 @@
         android:id="@+id/city_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:padding="20dp"
         android:textSize="35sp"
         android:text="City" />
@@ -17,5 +18,6 @@
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:textSize="25sp"
-        android:text="Province" />
+        android:layout_marginRight="10dp"
+        android:text="Province"/>
 </LinearLayout>
