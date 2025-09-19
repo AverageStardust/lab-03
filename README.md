@@ -2,11 +2,10 @@
 
 ## References and Resources
 
-List any resources used here, or simply put `N/A` if not applicable.
+https://developer.android.com/reference/android/
+https://www.geeksforgeeks.org/java/serializable-interface-in-java/
+https://stackoverflow.com/questions/40624554/difference-between-appsrccompat-and-androidsrc-in-androids-layout-xml
 
 ## Verbal Collaboration
 
-| Student Name | CCID      |
-| ------------ | --------- |
-| `student`    | `student` |
-| `<Add more>` | `<CCID>`  |
+None
