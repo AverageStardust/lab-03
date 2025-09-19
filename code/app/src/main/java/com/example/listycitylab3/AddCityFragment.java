@@ -12,9 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * A fragment that will prompt a user to add a city.
+ * Calls a listener with the new city.
+ */
 public class AddCityFragment extends DialogFragment {
     interface AddCityDialogListener {
-        void addCity(City city);
+        void addCity(City newCity);
     }
 
     private AddCityDialogListener listener;
@@ -23,6 +27,7 @@ public class AddCityFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
+        // attach listener
         if (context instanceof AddCityDialogListener) {
             listener = (AddCityDialogListener) context;
         } else {
@@ -33,20 +38,11 @@ public class AddCityFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_city_details, null);
-        EditText editCityName = view.findViewById(R.id.edit_text_city_text);
-        EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        return builder
-                .setView(view)
-                .setTitle("Add a city")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Add", (dialog, which) -> {
-                    String cityName = editCityName.getText().toString();
-                    String provinceName = editProvinceName.getText().toString();
-                    listener.addCity(new City(cityName, provinceName));
-                })
-                .create();
+        return new CityDetailsFragmentBuilder(getContext())
+                .setTitle("Add a City")
+                .setPositiveButton("Add")
+                .build((City city) -> {
+                    listener.addCity(city);
+                });
     }
 }

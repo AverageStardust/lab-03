@@ -14,9 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * A fragment that will prompt a user to edit a city.
+ * Calls a listener with the edited city and position to easily update data.
+ */
 public class EditCityFragment extends DialogFragment {
     interface EditCityDialogListener {
-        void editCity(City city, int position);
+        void editCity(City editedCity, int position);
     }
 
     private EditCityDialogListener listener;
@@ -25,6 +29,7 @@ public class EditCityFragment extends DialogFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
+        // attach listener
         if (context instanceof EditCityDialogListener) {
             listener = (EditCityDialogListener) context;
         } else {
@@ -35,25 +40,16 @@ public class EditCityFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle _) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_city_details, null);
-        EditText editCityName = view.findViewById(R.id.edit_text_city_text);
-        EditText editProvinceName = view.findViewById(R.id.edit_text_province_text);
+        City initalCity = (City)getArguments().getSerializable("city");
 
-        City city = (City)getArguments().getSerializable("city");
-        editCityName.setText(city.getName());
-        editProvinceName.setText(city.getProvince());
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setTitle("Edit a city")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Update", (dialog, which) -> {
-                    String cityName = editCityName.getText().toString();
-                    String provinceName = editProvinceName.getText().toString();
-
-                    listener.editCity(new City(cityName, provinceName),  getArguments().getInt("position"));
-                })
-                .create();
+        return new CityDetailsFragmentBuilder(getContext())
+                .setTitle("Edit a City")
+                .setName(initalCity.getName())
+                .setProvince(initalCity.getProvince())
+                .setPositiveButton("Update")
+                .build((editedCity) -> {
+                    int position = getArguments().getInt("position");
+                    listener.editCity(editedCity,  position);
+                });
     }
 }

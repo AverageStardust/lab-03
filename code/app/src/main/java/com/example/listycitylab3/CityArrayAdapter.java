@@ -20,6 +20,7 @@ public class CityArrayAdapter extends ArrayAdapter<City> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        // inflate a view only if one doesn't already exist
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.content, parent, false);
@@ -27,18 +28,14 @@ public class CityArrayAdapter extends ArrayAdapter<City> {
             view = convertView;
         }
 
-        City city = getItem(position);
-
+        // get the TextViews in the content view
         TextView cityName = view.findViewById(R.id.city_text);
         TextView provinceName = view.findViewById(R.id.province_text);
 
-        if (city == null) {
-            cityName.setText("Null");
-            provinceName.setText("Null");
-        } else {
-            cityName.setText(city.getName());
-            provinceName.setText(city.getProvince());
-        }
+        // update the TextViews with the city data
+        City city = getItem(position);
+        cityName.setText(city.getName());
+        provinceName.setText(city.getProvince());
 
         return view;
     }
